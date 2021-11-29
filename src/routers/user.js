@@ -87,7 +87,7 @@ router.patch("/users/me", auth, async (req, res) => {
 router.delete("/users/me", auth, async (req, res) => {
   try {
     await req.user.remove();
-    sendCancelationEmail(user.email, user.name);
+    sendCancelationEmail(req.user.email, req.user.name);
     res.send(req.user);
   } catch (e) {
     res.status(500).send(e);
@@ -106,6 +106,7 @@ const upload = multer({
     cb(undefined, true);
   },
 });
+
 router.post(
   "/users/me/avatar",
   auth,
