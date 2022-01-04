@@ -16,11 +16,11 @@ router.post("/users", async (req, res) => {
 
   try {
     await user.save();
-    sendWelcomeEmail(user.email, user.name);
+    // sendWelcomeEmail(user.email, user.name);
     const token = await user.generateAuthToken();
-    res.status(201).send({ user, token });
+    res.status(201).json({ user, token });
   } catch (e) {
-    res.status(400).send(e);
+    res.status(400).json({ message: e.message });
   }
 });
 
@@ -33,6 +33,7 @@ router.post("/users/login", async (req, res) => {
     const token = await user.generateAuthToken();
     res.send({ user, token });
   } catch (e) {
+    console.log(e);
     res.status(400).send();
   }
 });
